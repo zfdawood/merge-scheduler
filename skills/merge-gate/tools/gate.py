@@ -281,6 +281,9 @@ def plan(snap, state, now, cfg):
     for g, v in gview.items():
         if v.get("state"):
             continue
+        if not v["members"]:                          # a finished in-flight group has no open members left
+            v["state"] = "done"
+            continue
         sts = [info[k]["status"] for k in v["members"]]
         if g in cyclic:
             v["state"] = "deadlock"

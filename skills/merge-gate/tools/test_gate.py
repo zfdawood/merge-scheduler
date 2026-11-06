@@ -61,6 +61,16 @@ class Gang(unittest.TestCase):
         self.assertEqual([a["pr"] for a in kinds(r, "enqueue")], [f"{UI}#2"])
 
 
+class Done(unittest.TestCase):
+    def test_a_merged_group_reports_once_and_is_not_redispatched(self):
+        r1 = plan(snap(pr(API, 1)))
+        r2 = plan(snap(closed={f"{API}#1": dict(merged=True)}), r1["state"])
+        self.assertEqual([e["type"] for e in r2["events"]], ["merged"])
+        self.assertEqual(r2["state"]["inflight"], {})
+        r3 = plan(snap(), r2["state"])
+        self.assertEqual(r3["events"], [])
+
+
 class Torn(unittest.TestCase):
     def test_partner_failing_after_merge_is_torn_and_blocks_nothing(self):
         r1 = plan(snap(pr(API, 1, body="Merge-Group: g"), pr(UI, 2, body="Merge-Group: g")))
