@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+merge-scheduler.json
+local.md

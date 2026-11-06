@@ -1,0 +1,31 @@
+{
+  "org": "acme",
+  "repos": ["acme-api", "acme-ui", "acme-models"],
+  "repo_prefixes": [],
+  "authors": ["alice", "bob", "carol", "dependabot"],
+
+  "queue_cap": 3,
+  "aging_hours": 24,
+  "aging_cap": 2,
+
+  "tiers": { "acme-models": 0, "acme-api": 2, "acme-ui": 4 },
+  "aliases": { "api": "acme-api", "ui": "acme-ui", "models": "acme-models" },
+  "schedule_repo": "acme-api",
+
+  "manual": {
+    "repo_prefixes": ["tf-"],
+    "title_regex": "^Config \\(",
+    "path_prefixes": [".github/workflows/"],
+    "path_regex": null,
+    "docs_only": true
+  },
+
+  "resync": {
+    "enabled": false,
+    "contract_repo": "acme-api",
+    "contract_path": "openapi.json",
+    "consumer_repo": "acme-ui",
+    "grace_minutes": 30,
+    "min_gap_hours": 2
+  }
+}
